@@ -85,5 +85,5 @@ while True:
     elif key == ord('6'):
         index = JAWLINE
 
-
+#객체 해제
 cap.release()
