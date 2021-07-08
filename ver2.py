@@ -1,17 +1,18 @@
 import dlib 
 import cv2 as cv
 import numpy as np
-
-scaler = 0.1
+import cv2, dlib, sys
+scaler = 0.3
 #얼굴 검출을 위해 디폴트 얼굴 검출기 사용
 detector = dlib.get_frontal_face_detector()
 #검출된 얼굴에서 눈, 코, 입 같은 랜드마크를 찾기 위해 사용할 학습 모델 로드 ('학습모델')
 #아래 학습모델 'shape_predictor_68_face_landmarks.dat'은 구글링을 통해 다운 가능. 이 모델은 68개의 위치를 찾아준다.
 predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
 
-#웹캠으로부터 영상을 가져와 입력으로 사용한다.
-cap = cv.VideoCapture(0)
+#동영상 파일을 가져와서 이미 촬영한 동영상에 랜드마크 입히기
+cap = cv.VideoCapture('girl.mp4')
 
+   
 # range는 끝 값이 포함 안됨
 #눈썹, 눈, 코, 입, 턱선의 번호가 정해져있다. 부위별 분리 후 출력 하기 위해 부위별 리스트 정의
 ALL = list(range(0, 68)) 
@@ -32,7 +33,6 @@ while True:
 
 #웹캠으로부터 이미지를 가져와서 그레이스케일로 변환한다.
     ret, img_frame = cap.read()
-
     img_gray = cv.cvtColor(img_frame, cv.COLOR_BGR2GRAY)
 
 #주어진 이미지에서 얼굴을 검출한다. 두 번째 아규먼트는 업샘플링 횟수이다. *업샘플링: 이미지 확대
