@@ -31,13 +31,17 @@ index = ALL
 #웹캠으로부터 입력을 받으려면 while문을 통해 무한 반복을 해줘야 한다.
 while True:
 
-#웹캠으로부터 이미지를 가져와서 그레이스케일로 변환한다.
+#웹캠으로부터 이미지를 가져와서 그레이스케일로 변환한다. (원래 코드)
     ret, img_frame = cap.read()
-    img_gray = cv.cvtColor(img_frame, cv.COLOR_BGR2GRAY)
+#내가 웹캠이 아닌 동영상 파일에 랜드마크 적용 후 동영상 파일 크기를 줄이기 위해 밑에 주석처리한 기존코드가 아닌 fram에 sacler를 씌우고
+#데이터타입을 인트로 주어 리절트 동영상 파일의 크기를 조절했다
+    img_frame = cv2.resize(img_frame, (int(img_frame.shape[1] * scaler), int(img_frame.shape[0] * scaler)))
+    #img_gray = cv.cvtColor(img_frame, cv.COLOR_BGR2GRAY) (원래 코드)
+    
 
 #주어진 이미지에서 얼굴을 검출한다. 두 번째 아규먼트는 업샘플링 횟수이다. *업샘플링: 이미지 확대
-    dets = detector(img_gray, 1)
-
+    dets = detector(img_frame, 1)
+    #dets = detector(img_gray, 1)
 #검출된 얼굴 개수만큼 반복
     for face in dets:
 
