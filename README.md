@@ -4,4 +4,6 @@
 ## Reference
 https://www.youtube.com/user/webnautes/videos
 
-이 유튜브를 참조하여 공부하였음 !! 
+이 유튜브를 참조하여 공부하였고 
+
+토대가 되는 코드에 추가하고 싶은 기능 추가중.
