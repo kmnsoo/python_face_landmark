@@ -1,4 +1,4 @@
-## ython_face_landmark
+## Python_face_landmark
 - 파이썬 dlib라이브러리를 이용한 얼굴 랜드마크 인식
 - 학습시킨 모듈을 통해 함수를 불러오고 dlib, opencv, numpy 라이브러리를 이용한다.
 - 기본 틀은 얼굴에 68개 점을 입히고 인식한다. 
