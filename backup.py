@@ -39,7 +39,7 @@ def overlay_transparent(background_img, img_to_overlay_t, x, y, overlay_size=Non
   bg_img = cv2.cvtColor(bg_img, cv2.COLOR_BGRA2BGR)
 
   return bg_img
-
+   
 # range는 끝 값이 포함 안됨
 #눈썹, 눈, 코, 입, 턱선의 번호가 정해져있다. 부위별 분리 후 출력 하기 위해 부위별 리스트 정의
 ALL = list(range(0, 68)) 
@@ -96,61 +96,49 @@ while True:
 
     #detect faces
     faces = detector(img_frame)
-    #face = faces[0]
-    key = cv.waitKey(1)
+    #face = faces[]
+
     
-
-    result = ori
     
-    if(key==ord('2')):
-        dlib_shape = predictor(img_frame, face)
-        #연산을 쉽게하기위해 numpy사용 그리고 shape_2d함수에 넣는다.
-        shape_2d = np.array([[p.x, p.y] for p in dlib_shape.parts()])
-        #compute center of face
-        #numpy의 min, max함수를 이용하여 좌상단 우하단의 점을 구해준다
-        top_left = np.min(shape_2d, axis=0)
-        bottom_right = np.max(shape_2d, axis=0)
-        
-        #크기가 작으면 뒤에 * 1.8 등 숫자를 곱해서 키울 수있다. 소수점 있는 것을 곱하기 때문에 max앞에 int 사용
-        face_size = int(max(bottom_right - top_left) * 1.3)  
+    dlib_shape = predictor(img_frame, face)
+    #연산을 쉽게하기위해 numpy사용 그리고 shape_2d함수에 넣는다.
+    shape_2d = np.array([[p.x, p.y] for p in dlib_shape.parts()])
+    #compute center of face
+    #numpy의 min, max함수를 이용하여 좌상단 우하단의 점을 구해준다
+    top_left = np.min(shape_2d, axis=0)
+    bottom_right = np.max(shape_2d, axis=0)
+    
+    #크기가 작으면 뒤에 * 1.8 등 숫자를 곱해서 키울 수있다. 소수점 있는 것을 곱하기 때문에 max앞에 int 사용
+    face_size = int(max(bottom_right - top_left) * 1.3)  
 
-        #얼굴의 중심을 구할 것이다. 모든 특징점의 평균을 구해 중심을 구한다.
-        #평균이 소수점일 수 있어서 int로 설정한다.
-        center_x, center_y = np.mean(shape_2d, axis=0).astype(np.int)
+    #얼굴의 중심을 구할 것이다. 모든 특징점의 평균을 구해 중심을 구한다.
+    #평균이 소수점일 수 있어서 int로 설정한다.
+    center_x, center_y = np.mean(shape_2d, axis=0).astype(np.int)
 
-        result = overlay_transparent(ori, overlay, center_x -10, center_y  -25, overlay_size=(face_size, face_size))
-        
+    result = overlay_transparent(ori, overlay, center_x -10, center_y  -25, overlay_size=(face_size, face_size))
 #결과 영상을 화면에 보여준다
     cv.imshow('img', img_frame)
-    
     cv2.imshow('result', result)
 #키보드 입력을 받아 누르는 숫자에 따라 얼굴 전체, 부위 별로 보여준다.
     key = cv.waitKey(1)
-    
+
 #ESC키를 누르면 프로그램을 종료한다.
     if key == 27:
         break
-    
+
 #입력된 숫자에 따라 index 변수에 앞에서 지정한 리스트를 대입한다.
     elif key == ord('1'):
         index = ALL
-        print('key->', index)
     elif key == ord('2'):
         index = LEFT_EYEBROW + RIGHT_EYEBROW
-        
-        print('key->', result) 
     elif key == ord('3'):
         index = LEFT_EYE + RIGHT_EYE
-        print('key->', index) 
     elif key == ord('4'):
         index = NOSE
-        
     elif key == ord('5'):
         index = MOUTH_OUTLINE + MOUTH_INNER
-        
     elif key == ord('6'):
         index = JAWLINE
-    
 
 #객체 해제
-#cap.release()
+cap.release()
